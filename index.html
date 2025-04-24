@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Viewer</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #eef2f3, #8ec5fc);
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 10px 8px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 10px rgba(78, 84, 200, 0.3);
+    }
+
+    button:hover {
+      background-color: #4CAF50;
+      transform: scale(1.05);
+    }
+
+    #content {
+      max-width: 800px;
+      margin: 30px auto;
+    }
+
+    .card {
+      background-color: white;
+      border-left: 5px solid #4e54c8;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      color: #34495e;
+    }
+
+    p {
+      margin: 0;
+      color: #555;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="text-align:center;">
+    <button id="append">📩 Ambil Data (Append)</button>
+    <button id="prepend">🔼 Ambil Data (Prepend)</button>
+    <button id="reset">❌ Reset</button>
+  </div>
+
+  <section id="content"></section>
+
+  <script>
+    $('#append').click(function () {
+      $('#content').empty();
+      $.ajax({
+        url: 'https://jsonplaceholder.typicode.com/posts',
+        method: 'GET',
+        success: function (data) {
+          $('#content').append('<h1>Data yang diterima</h1>');
+          $.each(data, function (index, value) {
+            $('#content').append(
+              '<div class="card">' +
+              '<h3>' + value.title + '</h3>' +
+              '<p>' + value.body + '</p>' +
+              '</div>'
+            );
+          });
+        },
+        error: function () {
+          $('#content').html('<p style="color:red;">Terjadi kesalahan dalam mengambil data</p>');
+        }
+      });
+    });
+
+    $('#prepend').click(function () {
+      $('#content').empty();
+      $.ajax({
+        url: 'https://jsonplaceholder.typicode.com/posts',
+        method: 'GET',
+        success: function (data) {
+          $('#content').prepend('<h1>Data yang diprepend</h1>');
+          $.each(data, function (index, value) {
+            $('#content').prepend(
+              '<div class="card">' +
+              '<h3>' + value.title + '</h3>' +
+              '<p>' + value.body + '</p>' +
+              '</div>'
+            );
+          });
+        },
+        error: function () {
+          $('#content').html('<p style="color:red;">Terjadi kesalahan dalam mengambil data</p>');
+        }
+      });
+    });
+
+    $('#reset').click(function () {
+      $('#content').empty();
+    });
+  </script>
+
+</body>
+</html>
